@@ -1,8 +1,8 @@
-import jsonp from 'common/js/jsonp'
-import {commonParams, options} from './config'
+import {commonParams} from './config'
+import axios from 'axios'
 
 export function getSingerList() {
-  const url = 'https://c.y.qq.com/v8/fcg-bin/v8.fcg'
+  const url = '/api/getSingerList'
 
   const data = Object.assign({}, commonParams, {
     channel: 'singer',
@@ -15,5 +15,9 @@ export function getSingerList() {
     platform: 'yqq'
   })
 
-  return jsonp(url, data, options)
+  return axios.get(url, {
+    params: data
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  })
 }

@@ -3,7 +3,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
 import {getSingerList} from 'api/singer'
 import {ERR_OK} from 'api/config'
 
@@ -19,11 +19,12 @@ export default {
   methods: {
     _getSingerList() {
       getSingerList().then((res) => {
+        console.log(res)
         if (res.code === ERR_OK) {
-          this.singers = res.data.list
-          console.log(this.singers)
+          this.singers = this._normalizeSinger(res.data.list)
         }
-      })
+      }, (err) => { console.log(err) }
+      )
     }
   }
 }

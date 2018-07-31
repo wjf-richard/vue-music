@@ -64,6 +64,20 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         }).catch((e) => {
           console.log(e)
         })
+      }),
+      app.get('/api/getSingerList', function (req, res) {
+        var url = 'https://c.y.qq.com/v8/fcg-bin/v8.fcg' // 原api
+        axios.get(url, {
+          headers: {
+            referer: 'https://c.y.qq.com/',
+            host: 'c.y.qq.com'
+          },
+          params: req.query
+        }).then((response) => {
+          res.json(response.data)
+        }).catch((e) => {
+          console.log(e)
+        })
       })
     }
   },
@@ -90,27 +104,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     ])
   ]
 })
-var app = express()
-
-var apiRoutes = express.Router()
-
-apiRoutes.get('/getDiscList', function (req, res) {
-  var url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
-  axios.get(url, {
-    headers: {
-      referer: 'https://c.y.qq.com/',
-      host: 'c.y.qq.com'
-    },
-    params: req.query
-  }).then((response) => {
-    res.json(response.data)
-  }).catch((e) => {
-    console.log(e)
-  })
-})
-
-
-app.use('/api', apiRoutes)
 
 module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = process.env.PORT || config.dev.port
